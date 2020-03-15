@@ -22,13 +22,7 @@ class Station
   # если есть то метод возвращает nil, если нет
   # происходит добавление в массив @trains полученного параметра (Объект train).
   def arrive(train)
-<<<<<<< HEAD
-    return if trains.include?(train)
-
-    @trains << train
-=======
     @trains << train unless trains.include?(train)
->>>>>>> 889ba388e8addd586d155f504142c1a432de886f
   end
 
   # Метод return_type может возвращать список поездов на станции по типу:
