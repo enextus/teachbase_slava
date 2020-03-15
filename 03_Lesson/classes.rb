@@ -22,9 +22,13 @@ class Station
   # если есть то метод возвращает nil, если нет
   # происходит добавление в массив @trains полученного параметра (Объект train).
   def arrive(train)
+<<<<<<< HEAD
     return if trains.include?(train)
 
     @trains << train
+=======
+    @trains << train unless trains.include?(train)
+>>>>>>> 889ba388e8addd586d155f504142c1a432de886f
   end
 
   # Метод return_type может возвращать список поездов на станции по типу:
@@ -53,22 +57,22 @@ class Route
     @stations = [first, last]
   end
 
-  # Метод intermediate может добавлять промежуточную станцию в список
-  def intermediate(station)
-    @stations.insert(-2, station) unless @station.include? station
+  # Метод midway может добавлять промежуточную станцию в список
+  def midway(station)
+    @stations.insert(-2, station) unless @stations.include? station
   end
 
-  # Метод delet_intermediate может удалять промежуточную станцию из списка.
-  def delet_intermediate(station)
+  # Метод delete_midway может удалять промежуточную станцию из списка.
+  def delete_midway(station)
     if station != @stations.first && station != @stations.last
       @stations.delete(station)
     end
   end
 
-  # Метод puts_station Может выводить список всех станций по-порядку
+  # Метод list_stations Может выводить список всех станций по-порядку
   # от начальной до конечной.
-  def puts_station
-    @stations.each { |station| puts station }
+  def list_stations
+    @stations.each { |name| puts name }
   end
 end
 
@@ -104,25 +108,27 @@ class Train
   end
 
   # Метод speed_gain может набирать скорость.
-  def speed_gain(speed)
-    @current_speed += speed if speed.positive?
+  def accelerate(value)
+    @current_speed += value if value.positive?
   end
 
   # Метод stop может тормозить (сбрасывать скорость до нуля).
-  def stop(speed)
-    @current_speed -= speed if speed <= @current_speed && speed.positive?
+  def decelerate(value)
+    @current_speed -= value if value <= @current_speed && value.positive?
   end
 
-  # Метод hitch_wagon может прицеплять/отцеплять вагоны (по одному вагону
-  # за операцию, метод просто увеличивает или уменьшает количество вагонов)
-  # прицепка/отцепка вагонов может осуществляться только если поезд не движется.
-  # параметры ('minus' - удаляет вагон, 'plus' - прибавляет вагон).
-  def hitch_wagon(minusplus)
-    if minusplus == 'minus' && @current_speed.zero? && @wagons.positive?
-      @wagons -= 1
-    elsif minusplus == 'plus' && @current_speed.zero?
-      @wagons += 1
-    end
+  # Метод uncouple_wagon может отцеплять вагоны (по одному вагону
+  # за операцию, метод просто уменьшает количество вагонов)
+  # отцепка вагонов может осуществляться только если поезд не движется.
+  def detach_wagon
+    @wagons -= 1 if @current_speed.zero? && @wagons.positive?
+  end
+
+  # Метод hitch_wagon может прицеплять вагоны (по одному вагону
+  # за операцию, метод просто увеличивает количество вагонов)
+  # прицепка вагонов может осуществляться только если поезд не движется.
+  def attach_wagon
+    @wagons += 1 if @current_speed.zero?
   end
 
   # Метод route может принимать маршрут следования (объект класса Route).
@@ -133,26 +139,25 @@ class Train
     @station = @route.stations.first
   end
 
-  # Метод move может перемещаться между станциями, указанными в маршруте.
-  # Перемещение возможно вперед - 'vpered' и назад - 'nazad',
-  # но только на 1 станцию за раз.
-  def move(nazadvpered)
-    if nazadvpered == 'nazad' && @current_speed > 0
-      @station = @route.stations.rotate!(-1).first
-    elsif nazadvpered == 'vpered' && @current_speed > 0
-      @station = @route.stations.rotate!(1).first
-    end
+  # Метод moving_forward может перемещаться между станциями, указанными в
+  # маршруте. Перемещение возможно вперед, но только на 1 станцию за раз.
+  def moving_forward
+    @station = @route.stations.rotate!(1).first if @current_speed > 0
   end
 
-  # Метод return_station может возвращать предыдущую станцию - 'pred',
-  # текущую - 'tek', следующую -'sled', на основе маршрута.
-  def return_station(predteksled)
-    if predteksled == 'tek'
-      @station
-    elsif predteksled == 'pred'
-      @route.stations.rotate(-1).first
-    elsif predteksled == 'sled'
-      @route.stations.rotate(1).first
-    end
+  # Метод moving_back может перемещаться между станциями, указанными в
+  # маршруте. Перемещение возможно назад, но только на 1 станцию за раз.
+  def moving_back
+    @station = @route.stations.rotate!(-1).first if @current_speed > 0
+  end
+
+  # Метод previous_station может возвращать предыдущую станцию маршрута.
+  def previous_station
+    @route.stations.rotate(-1).first
+  end
+
+  # Метод next_station может возвращать предыдущую станцию маршрута.
+  def next_station
+    @route.stations.rotate(1).first
   end
 end
