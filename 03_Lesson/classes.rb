@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Класс Station (Станция):
 #  Имеет название, которое указывается при ее создании.
 #  Может принимать поезда (по одному за раз).
@@ -21,6 +23,7 @@ class Station
   # происходит добавление в массив @trains полученного параметра (Объект train).
   def arrive(train)
     return if trains.include?(train)
+
     @trains << train
   end
 
@@ -68,7 +71,6 @@ class Route
     @stations.each { |station| puts station }
   end
 end
-
 
 # Класс Train (Поезд):
 # Имеет номер (произвольная строка) и тип (грузовой, пассажирский)
