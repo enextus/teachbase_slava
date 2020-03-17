@@ -171,9 +171,9 @@ class Train
     # Получаем значение индекса актуальной станции из массива stations.
     current_index = @route.stations.find_index(@current_station)
 
-    # Защита (guard clause) от перехода на следующую станцию
+    # Защита (guard clause) от перехода на предыдущую станцию
     # если текущая станция первая.
-    return unless current_index - 1 != 0
+    return unless current_index - 1 >= 0
 
     # Убытие поезда с актуальной станции, где self это текущий экземпляр
     # класса Train.
@@ -218,5 +218,18 @@ class Train
     @route.stations[current_index - 1]
   end
 end
+
+# seed data
+station_start = Station.new("Arhangelsk")
+station_stop = Station.new("Kiev")
+station_middle_01 = Station.new("Petersburg")
+station_middle_02 = Station.new("Vitebsk")
+station_middle_03 = Station.new("Minsk")
+route_nord_south = Route.new(station_start, station_stop)
+route_nord_south.midway(station_middle_01)
+route_nord_south.midway(station_middle_02)
+route_nord_south.midway(station_middle_03)
+route_nord_south.stations
+train_01_a_k_cargo = Train.new("01.Arch_Kiev", "cargo", 12)
 
 # rubocop:enable AsciiComments
