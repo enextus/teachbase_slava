@@ -1,6 +1,6 @@
 # Класс PassengerTrain (Пассажирский Поезд):
 # Имеет номер (произвольная строка) - указывается при создании экземпляра класса
-# и тип (pass - пассажирский)
+# Имеет тип (pass - пассажирский)
 # Может набирать скорость
 # Может возвращать текущую скорость
 # Может тормозить (сбрасывать скорость до нуля)
@@ -16,15 +16,14 @@
 # Перемещение возможно вперед и назад, но только на 1 станцию за раз.
 # Может возвращать предыдущую станцию, текущую, следующую, на основе маршрута
 class PassengerTrain < Train
-  def initialize(number, type = 'pass')
-    super
+  def initialize(number)
+    super number, 'pass'
   end
 
   # Метод attach_wagon может прицеплять вагоны (по одному вагону
   # за операцию, метод добавляет экземпляр класса PassengerWagon в массив)
   # прицепка вагонов может осуществляться только если поезд не движется.
-  def attach_wagon(passengerwagon)
-    return if passengerwagon.type != 'passw'
-    super
+  def attach_wagon(wagon)
+    super if @type == wagon.type
   end
 end
