@@ -22,20 +22,10 @@ class Train
   # Метод current_speed может возвращать текущую скорость.
   attr_reader :number, :type, :wagons, :current_station, :current_speed
   def initialize(number, type)
-    @number = number
+    @number = number.to_s
     @type = type
     @wagons = []
     @current_speed = 0
-  end
-
-  # Метод accelerate может набирать скорость.
-  def accelerate(value)
-    @current_speed += value if value.positive?
-  end
-
-  # Метод decelerate может тормозить (сбрасывать скорость до нуля).
-  def decelerate(value)
-    @current_speed -= value if value <= @current_speed && value.positive?
   end
 
   # Метод attach_wagon может прицеплять вагоны (по одному вагону
@@ -43,6 +33,7 @@ class Train
   # CargoWagon).
   # Прицепка вагонов может осуществляться только если поезд не движется.
   def attach_wagon(wagon)
+    return if @wagons.include? wagon
     @wagons << wagon if @current_speed.zero?
   end
 
@@ -107,6 +98,18 @@ class Train
     # Прибытие поезда на следующую станцию, где self это текущий экземпляр
     # класса Train.
     @current_station.arrive(self)
+  end
+
+  protected
+
+  # Метод accelerate может набирать скорость.
+  def accelerate(value)
+    @current_speed += value if value.positive?
+  end
+
+  # Метод decelerate может тормозить (сбрасывать скорость до нуля).
+  def decelerate(value)
+    @current_speed -= value if value <= @current_speed && value.positive?
   end
 
   # Метод next_station может возвращать следующую станцию маршрута.
