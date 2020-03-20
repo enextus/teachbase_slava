@@ -1,12 +1,4 @@
-require_relative 'train'
-require_relative 'route'
-require_relative 'wagon'
-require_relative 'station'
-require_relative 'railway'
-require_relative 'cargo_train'
-require_relative 'cargo_wagon'
-require_relative 'passenger_train'
-require_relative 'passenger_wagon'
+#
 class Railway
   attr_reader :routes, :trains, :wagons, :stations
   def initialize
@@ -16,93 +8,72 @@ class Railway
     @stations = []
   end
 
-  def menu
-    p 'Введите: 1, если вы хотите создать станцию, поезд, вагон или маршрут.'
-    p 'Введите: 2, если вы хотите произвести операции над созданными объектами.'
-    p 'Введите: 3, если вы хотите посмотреть информацию об объектах.'
-    p 'Введите: 0, если хотите завершить программу.'
-    input = gets.chomp
-    if input == '1'
-      p 'Введите: 1, если хотите создать станцию.'
-      p 'Введите: 2, если хотите создать поезд.'
-      p 'Введите: 3, если хотите создать вагон.'
-      p 'Введите: 4, если хотите создать маршрут.'
-      input = gets.chomp
-      if input == '1'
-        p 'Введите название станции:'
-        p "#{@stations << Station.new(gets.chomp)} - Станция успешно создана."
-      end
-      if input == '2'
-        p 'Введите: 1, если хотите создать пассажирский поезд.'
-        p 'Введите: 2, если хотите создать грузовой поезд.'
-        input = gets.chomp
-        if input == '1'
-          p 'Введите номер пассажирского поезда:'
-          @trains << PassengerTrain.new(gets.chomp)
-        end
-        if input == '2'
-          p 'Введите номер грузового поезда:'
-          @trains << CargoTrain.new(gets.chomp)
-        end
-      end
-      if input == '3'
-        p 'Введите: 1, если хотите создать пассажирский вагон.'
-        p 'Введите: 2, если хотите создать грузовой вагон.'
-        input = gets.chomp
-        if input == '1'
-          p "#{@wagons << PassengerWagon.new} - Пассажирский вагон создан."
-        end
-        if input == '2'
-          p "#{@wagons << CargoWagon.new} - Грузовой вагон создан."
-        end
-      end
-      if input == '4'
-        p 'Введите: 1, если хотите создать начальный маршрут.'
-        p 'Введите: 2, если хотите добавить промежуточные станции в маршрут.'
-        input = gets.chomp
-        if input == '1'
-          if @stations.size >= 2
-            p @routes << Route.new(@stations.first, @stations.last)
-          else
-            p 'Создайте пожалуйста 2 станции начальную и конечную станцию.'
-          end
-        end
-        if input == '2'
-          if !@routes.nil?
-            p 'Введите промежуточную станцию:'
-            @routes.first.midway(gets.chomp)
-          end
-        end
-      end
-    end
-    if input == '2'
-      p 'Введите: 1, если хотите назначить маршрут поезду.'
-      p 'Введите: 2, если хотите добавить вагоны к поезду.'
-      p 'Введите: 3, если хотите отцепить вагоны от поезда.'
-      p 'Введите: 4, если хотите перемещать по маршруту поезд вперед и назад.'
-      input = gets.chomp
-      if input == '1'
-        p "#{@trains.first.route(@routes.first)} - Маршрут назначен"
-      end
-      if input == '2'
-        if @trains.first.type == ('pass' || 'cargo')
-          @trains.first.attach_wagon(@wagons.first)
-        end
-      if input == '3'
-        @trains.first.detach_wagon
-      end
-      if input == '4'
-        p 'Введите: 1, если хотите переместить поезд на станцию вперед.'
-        p 'Введите: 2, если хотите переместить поезд на станцию назад.'
-        input = gets.chomp
-        if input == '1'
-          @trains.first.move_forwards
-        end
-        if input == '2'
-          @trains.first.move_backwards
-        end
-      end
-      end
+  #
+  def menu_items
+    messages = ['Выберите действие, введя номер из списка: ',
+                ' 1 - Создать станцию.',
+                ' 2 - Создать поезд.',
+                ' 3 - Создать вагон.',
+                ' 4 - Посмотреть список вагонов.',
+                ' 5 - Прицепить к поезду вагон из пула вагонов.',
+                ' 6 - Отцепить вагон от поезда в пул вагонов.',
+                ' 7 - Поместить поезд на станцию.',
+                ' 8 - Посмотреть список станций.',
+                ' 9 - Посмотреть список поездов на станции.',
+                ' 10 - Создать маршрут.',
+                ' 11 - Добавитъ станцию в маршрут.',
+                ' 12 - Удалитъ станцию в маршруте.',
+                ' 13 - Удалить маршрут.',
+                ' 14 - Назначать маршрут поезду.',
+                ' 15 - Переместить поезд по маршруту вперед.',
+                ' 16 - Переместить поезд по маршруту назад.',
+                ' 17 - Посмотреть список созданных маршрутов.',
+                BORDERLINE,
+                '  0 - Для выхода из программы.']
+    messages.each { |item| puts item }
+  end
+
+  #
+  def selected(menu_item)
+    puts "Your choice: #{menu_item}" if menu_item != ''
+
+    case menu_item
+    when '1'
+      create_station
+    when '2'
+      create_train
+    when '3'
+      create_wagon
+    when '4'
+      list_wagons
+    when '5'
+      attach_wagon
+    when '6'
+      detach_wagon
+    when '7'
+      link_to_station
+    when '8'
+      list_stations
+    when '9'
+      list_trains_on_station
+    when '10'
+      create_route
+    when '11'
+      add_station_in_to_route
+    when '12'
+      delete_station_in_route
+    when '13'
+      delete_route
+    when '14'
+      assign_route_to_train
+    when '15'
+      move_train_forward_by_route
+    when '16'
+      move_train_backward_by_route
+    when '17'
+      show_all_routes
+    else
+      puts 'Повторите ввод!'
     end
   end
 end
