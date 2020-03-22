@@ -1,7 +1,5 @@
-<<<<<<< HEAD
-#
-=======
->>>>>>> 094e2c341d52eaa80415c56d3cae438166b0ca57
+
+
 class Railway
   attr_reader :routes, :trains, :wagons, :stations
   def initialize
@@ -11,10 +9,10 @@ class Railway
     @stations = []
   end
 
-<<<<<<< HEAD
   #
   def menu_items
     messages = ['Выберите действие, введя номер из списка: ',
+                BORDERLINE,
                 ' 1 - Создать станцию.',
                 ' 2 - Создать поезд.',
                 ' 3 - Создать вагон.',
@@ -40,33 +38,6 @@ class Railway
   #
   def selected(menu_item)
     puts "Your choice: #{menu_item}" if menu_item != ''
-
-=======
-  def menu_items
-    messages = ['Выберите действие, введя номер из списка: ',
-                ' 1 - Создать станцию.',
-                ' 2 - Создать пассажирский поезд.',
-                ' 3 - Создать грузовой поезда.',
-                ' 4 - Создать пассажирский вагон.',
-                ' 5 - Создать грузовой вагон.',
-                ' 6 - Посмотреть список вагонов.',
-                ' 7 - Прицепить к поезду вагон из пула вагонов.',
-                #' 5 - Прицепить к поезду вагон из пула вагонов.',
-                #' 6 - Отцепить вагон от поезда в пул вагонов.',
-                #' 7 - Поместить поезд на станцию.',
-                #' 8 - Посмотреть список станций.',
-                #' 9 - Посмотреть список поездов на станции.',
-                #' 10 - Создать маршрут.',
-                #' 11 - Добавитъ станцию в маршрут.',
-                #' 12 - Удалитъ станцию в маршруте.',
-                #' 13 - Удалить маршрут.',
-                #' 14 - Назначать маршрут поезду.',
-                #' 15 - Переместить поезд по маршруту вперед.',
-                #' 16 - Переместить поезд по маршруту назад.',
-                #' 17 - Посмотреть список созданных маршрутов.',
-                BORDERLINE,
-                ' 0 - Для выхода из программы.']
-    messages.each { |item| puts item }
   end
 
   def data_input(message)
@@ -75,9 +46,18 @@ class Railway
     @args << gets.chomp
   end
 
+  # puts @stations.any?
+  def dublicate?(arr, name)
+    arr.each { |elem| return true if elem.name == name.to_s }
+    false
+  end
+
   def create_station
     message = ['Введите название станции:']
     name = data_input(message).first
+
+    return if dublicate?(@stations, name)
+
     @stations << Station.new(name)
   end
 
@@ -114,12 +94,11 @@ class Railway
 
   def selected(menu_item)
     puts "Your choice: #{menu_item}" if menu_item != ''
->>>>>>> 094e2c341d52eaa80415c56d3cae438166b0ca57
+
     case menu_item
     when '1'
       create_station
     when '2'
-<<<<<<< HEAD
       create_train
     when '3'
       create_wagon
@@ -153,19 +132,6 @@ class Railway
       show_all_routes
     else
       puts 'Повторите ввод!'
-=======
-      create_train_pass
-    when '3'
-      create_train_cargo
-    when '4'
-      create_wagon_pass
-    when '5'
-      create_wagon_cargo
-    when '6'
-      list_wagons
-    when '7'
-      attach_wagon
->>>>>>> 094e2c341d52eaa80415c56d3cae438166b0ca57
     end
   end
 end
