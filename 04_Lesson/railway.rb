@@ -52,6 +52,7 @@ class Railway
     false
   end
 
+
   def create_station
     message = ['Введите название станции:']
     name = data_input(message).first
