@@ -14,22 +14,12 @@ class Railway
     messages = ['Выберите действие, введя номер из списка: ',
                 BORDERLINE,
                 ' 1 - Создать станцию.',
-                ' 2 - Создать поезд.',
-                ' 3 - Создать вагон.',
-                ' 4 - Посмотреть список вагонов.',
-                ' 5 - Прицепить к поезду вагон из пула вагонов.',
-                ' 6 - Отцепить вагон от поезда в пул вагонов.',
-                ' 7 - Поместить поезд на станцию.',
-                ' 8 - Посмотреть список станций.',
-                ' 9 - Посмотреть список поездов на станции.',
-                ' 10 - Создать маршрут.',
-                ' 11 - Добавитъ станцию в маршрут.',
-                ' 12 - Удалитъ станцию в маршруте.',
-                ' 13 - Удалить маршрут.',
-                ' 14 - Назначать маршрут поезду.',
-                ' 15 - Переместить поезд по маршруту вперед.',
-                ' 16 - Переместить поезд по маршруту назад.',
-                ' 17 - Посмотреть список созданных маршрутов.',
+                ' 2 - Создать пассажирский поезд.',
+                ' 3 - Создать грузовой поезд.',
+                ' 4 - Создать пассажирский вагон.',
+                ' 5 - Создать грузовой вагон.',
+                ' 6 - Посмотреть список вагонов.',
+                ' 7 - attach_wagon.',
                 BORDERLINE,
                 '  0 - Для выхода из программы.']
     messages.each { |item| puts item }
@@ -46,51 +36,70 @@ class Railway
     @args << gets.chomp
   end
 
-  # puts @stations.any?
-  def dublicate?(arr, name)
+  #
+  def dublicate_name?(arr, name)
     arr.each { |elem| return true if elem.name == name.to_s }
     false
   end
 
-
+  #
   def create_station
     message = ['Введите название станции:']
     name = data_input(message).first
 
-    return if dublicate?(@stations, name)
+    return unless name != '' && !dublicate_name?(@stations, name)
 
     @stations << Station.new(name)
   end
 
+  #
+  def dublicate_number?(arr, number)
+    arr.each { |elem| return true if elem.number == number.to_s }
+    false
+  end
+
+  #
   def create_train_pass
     message = ['Введите номер поезда:']
     number = data_input(message).first
+
+    return unless number != '' && !dublicate_number?(@trains, number)
+
     @trains << PassengerTrain.new(number)
   end
 
+  #
   def create_train_cargo
     message = ['Введите номер поезда:']
     number = data_input(message).first
+
+    return unless number != '' && !dublicate_number?(@trains, number)
+
     @trains << CargoTrain.new(number)
   end
 
+  #
   def create_wagon_pass
     @wagons << PassengerWagon.new
   end
 
+  #
   def create_wagon_cargo
     @wagons << CargoWagon.new
   end
 
+  #
   def list_wagons
-    puts @wagons
+    @wagons.each_with_index { |elem, index| puts "#{index + 1}. #{elem}" }
   end
 
   def attach_wagon
     message = @trains
-    message.each_with_index { |mess, index| puts index + 1, mess }
-    train = data_input(message).first
-    puts train
+    message.each_with_index { |elem, index| puts "#{index + 1}. #{elem}" }
+    index = data_input(message).first.to_i - 1
+    puts "\n\nindex: #{index}"
+    selected_train = @trains[index]
+    puts "Selected train: #{selected_train}"
   end
 
   def selected(menu_item)
@@ -100,37 +109,17 @@ class Railway
     when '1'
       create_station
     when '2'
-      create_train
+      create_train_pass
     when '3'
-      create_wagon
+      create_train_cargo
     when '4'
-      list_wagons
+      create_wagon_pass
     when '5'
-      attach_wagon
+      create_wagon_cargo
     when '6'
-      detach_wagon
+      list_wagons
     when '7'
-      link_to_station
-    when '8'
-      list_stations
-    when '9'
-      list_trains_on_station
-    when '10'
-      create_route
-    when '11'
-      add_station_in_to_route
-    when '12'
-      delete_station_in_route
-    when '13'
-      delete_route
-    when '14'
-      assign_route_to_train
-    when '15'
-      move_train_forward_by_route
-    when '16'
-      move_train_backward_by_route
-    when '17'
-      show_all_routes
+      attach_wagon
     else
       puts 'Повторите ввод!'
     end

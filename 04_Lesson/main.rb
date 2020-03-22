@@ -19,9 +19,9 @@ puts "Добро пожаловать в программу 'Железная д
 puts NEWLINE
 #
 loop do
-  puts "railway.stations: #{railway.stations}\n"
-  puts "railway.trains: #{railway.trains}\n"
-  puts "railway.wagons: #{railway.wagons}\n"
+  puts "stations: #{railway.stations}\n\n"
+  puts "trains: #{railway.trains}\n\n"
+  puts "wagons: #{railway.wagons}\n\n"
   puts NEWLINE
   railway.menu_items
 
