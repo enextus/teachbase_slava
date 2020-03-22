@@ -95,12 +95,12 @@ class Railway
     index = data_input(message).first.to_i - 1
     train = @trains[index]
 
-    correct_wagon = @wagons.select { |wagon| wagon.type == train.type }.first
+    suitable_wagon = @wagons.select { |wagon| wagon.type == train.type }.first
 
-    return if correct_wagon.nil?
+    return if suitable_wagon.nil?
 
-    train.attach_wagon(correct_wagon)
-    @wagons.delete(correct_wagon)
+    train.attach_wagon(suitable_wagon)
+    @wagons.delete(suitable_wagon)
   end
 
   def selected(menu_item)
