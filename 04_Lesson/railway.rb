@@ -25,11 +25,6 @@ class Railway
     messages.each { |item| puts item }
   end
 
-  #
-  def selected(menu_item)
-    puts "Your choice: #{menu_item}" if menu_item != ''
-  end
-
   def data_input(message)
     @args = []
     message.each { |mess| print mess }
@@ -96,10 +91,16 @@ class Railway
   def attach_wagon
     message = @trains
     message.each_with_index { |elem, index| puts "#{index + 1}. #{elem}" }
+
     index = data_input(message).first.to_i - 1
-    puts "\n\nindex: #{index}"
-    selected_train = @trains[index]
-    puts "Selected train: #{selected_train}"
+    train = @trains[index]
+
+    correct_wagon = @wagons.select { |wagon| wagon.type == train.type }.first
+
+    return if correct_wagon.nil?
+
+    train.attach_wagon(correct_wagon)
+    @wagons.delete(correct_wagon)
   end
 
   def selected(menu_item)
