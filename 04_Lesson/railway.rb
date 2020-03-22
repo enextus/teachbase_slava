@@ -88,18 +88,27 @@ class Railway
     @wagons.each_with_index { |elem, index| puts "#{index + 1}. #{elem}" }
   end
 
+  #
   def attach_wagon
+    #
     message = @trains
+    #
     message.each_with_index { |elem, index| puts "#{index + 1}. #{elem}" }
 
+    #
     index = data_input(message).first.to_i - 1
+    # 
     train = @trains[index]
 
+    #
     suitable_wagon = @wagons.select { |wagon| wagon.type == train.type }.first
 
+    #
     return if suitable_wagon.nil?
 
+    #
     train.attach_wagon(suitable_wagon)
+    #
     @wagons.delete(suitable_wagon)
   end
 
