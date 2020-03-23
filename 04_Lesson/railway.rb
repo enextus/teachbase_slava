@@ -25,6 +25,29 @@ class Railway
     messages.each { |item| puts item }
   end
 
+  def selected(menu_item)
+    puts "Your choice: #{menu_item}" if menu_item != ''
+
+    case menu_item
+    when '1'
+      create_station
+    when '2'
+      create_train_pass
+    when '3'
+      create_train_cargo
+    when '4'
+      create_wagon_pass
+    when '5'
+      create_wagon_cargo
+    when '6'
+      list_wagons
+    when '7'
+      attach_wagon
+    else
+      puts 'Повторите ввод!'
+    end
+  end
+
   def data_input(message)
     @args = []
     message.each { |mess| print mess }
@@ -97,7 +120,7 @@ class Railway
 
     #
     index = data_input(message).first.to_i - 1
-    # 
+    #
     train = @trains[index]
 
     #
@@ -112,26 +135,4 @@ class Railway
     @wagons.delete(suitable_wagon)
   end
 
-  def selected(menu_item)
-    puts "Your choice: #{menu_item}" if menu_item != ''
-
-    case menu_item
-    when '1'
-      create_station
-    when '2'
-      create_train_pass
-    when '3'
-      create_train_cargo
-    when '4'
-      create_wagon_pass
-    when '5'
-      create_wagon_cargo
-    when '6'
-      list_wagons
-    when '7'
-      attach_wagon
-    else
-      puts 'Повторите ввод!'
-    end
-  end
 end

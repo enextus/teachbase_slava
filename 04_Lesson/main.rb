@@ -1,4 +1,5 @@
 #
+# require 'pry'
 require_relative 'train'
 require_relative 'route'
 require_relative 'wagon'
@@ -22,6 +23,9 @@ loop do
   puts "stations: #{railway.stations}\n\n"
   puts "trains: #{railway.trains}\n\n"
   puts "wagons: #{railway.wagons}\n\n"
+
+  # binding.pry
+
   puts NEWLINE
   railway.menu_items
 
