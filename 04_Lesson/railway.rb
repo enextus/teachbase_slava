@@ -118,15 +118,20 @@ class Railway
     @wagons.each_with_index { |elem, index| puts "#{index + 1}. #{elem}" }
   end
 
-  # attach_wagon
-  def attach_wagon
+  # do_select_train
+  def selecting_train
     message = @trains
     message.each_with_index { |elem, index| puts "#{index + 1}. #{elem}" }
 
     message = ['Выбрать поезд: ']
 
     index = data_input(message).first.to_i - 1
-    train = @trains[index]
+    @trains[index]
+  end
+
+  # attach_wagon
+  def attach_wagon
+    train = selecting_train
 
     suitable_wagon = @wagons.select { |wagon| wagon.type == train.type }.first
 
@@ -138,13 +143,7 @@ class Railway
 
   # detach_wagon
   def detach_wagon
-    message = @trains
-    message.each_with_index { |elem, index| puts "#{index + 1}. #{elem}" }
-
-    message = ['Выбрать поезд: ']
-
-    index = data_input(message).first.to_i - 1
-    train = @trains[index]
+    train = selecting_train
 
     return if train.wagons.size.zero?
 
