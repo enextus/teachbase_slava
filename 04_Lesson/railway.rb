@@ -19,6 +19,8 @@ class Railway
                 ' 6 - Посмотреть список вагонов.',
                 ' 7 - Прицепить к поезду вагон.',
                 ' 8 - Отцепить вагон от поезда.',
+                ' 9 - Просмотреть список станций с поездами.',
+                '10 - Создавать маршруты и управлять станциями в нем (добавлять, удалять).',
                 BORDERLINE,
                 '  0 - Для выхода из программы.']
     messages.each { |item| puts item }
@@ -44,6 +46,10 @@ class Railway
       attach_wagon
     when '8'
       detach_wagon
+    when '9'
+      list_stations
+    when '10'
+      arrive_train
     else
       puts 'Повторите ввод!'
     end
@@ -139,5 +145,10 @@ class Railway
     return if train.wagons.size.zero?
 
     @wagons << train.detach_wagon
+  end
+
+  # list_stations
+  def list_stations
+    @stations.each_with_index { |elem, index| puts "#{index + 1}. #{elem}; Trains: #{elem.trains}" }
   end
 end
