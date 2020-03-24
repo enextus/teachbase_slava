@@ -124,7 +124,6 @@ class Railway
     message.each_with_index { |elem, index| puts "#{index + 1}. #{elem}" }
 
     message = ['Выбрать поезд: ']
-
     index = data_input(message).first.to_i - 1
     @trains[index]
   end
@@ -143,11 +142,7 @@ class Railway
 
   # detach_wagon
   def detach_wagon
-    train = choose_a_train
-
-    return if train.wagons.size.zero?
-
-    @wagons << train.detach_wagon
+    #
   end
 
   # list_stations
