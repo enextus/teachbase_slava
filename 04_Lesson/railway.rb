@@ -149,4 +149,8 @@ class Railway
   def list_stations
     @stations.each_with_index { |elem, index| puts "#{index + 1}. #{elem}; Trains: #{elem.trains}" }
   end
+
+  def arrive_train
+    # 
+  end
 end
