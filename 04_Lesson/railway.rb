@@ -119,7 +119,7 @@ class Railway
   end
 
   # do_select_train
-  def selecting_train
+  def choose_a_train
     message = @trains
     message.each_with_index { |elem, index| puts "#{index + 1}. #{elem}" }
 
@@ -131,7 +131,7 @@ class Railway
 
   # attach_wagon
   def attach_wagon
-    train = selecting_train
+    train = choose_a_train
 
     suitable_wagon = @wagons.select { |wagon| wagon.type == train.type }.first
 
@@ -143,7 +143,7 @@ class Railway
 
   # detach_wagon
   def detach_wagon
-    train = selecting_train
+    train = choose_a_train
 
     return if train.wagons.size.zero?
 
