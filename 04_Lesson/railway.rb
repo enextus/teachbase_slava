@@ -115,7 +115,7 @@ class Railway
 
   # list_wagons
   def list_wagons
-    @wagons.each_with_index { |elem, index| puts "#{index + 1}. #{elem}" }
+    puts(@wagons.each_with_index { |elem, index| "#{index + 1}. #{elem}" })
   end
 
   # do_select_train
