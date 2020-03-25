@@ -27,7 +27,7 @@ class Railway
   end
 
   def selected(menu_item)
-    puts "Your choice: #{menu_item}" if menu_item != ''
+    puts "Your choice: #{menu_item}" unless menu_item == ''
 
     case menu_item
     when '1'
@@ -151,6 +151,6 @@ class Railway
   end
 
   def arrive_train
-    # 
+    #
   end
 end
